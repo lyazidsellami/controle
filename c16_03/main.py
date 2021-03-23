@@ -19,7 +19,7 @@ print("Moyenne générale de l'élève 1 :", moy_eleve1)
 
 #Q4.b
 
-def moyenne_tuples(notes,eleve,matiere):
+def moyenne_tuple(notes,eleve,matiere):
   s=0
   i = 0
   for x in notes:
@@ -29,11 +29,11 @@ def moyenne_tuples(notes,eleve,matiere):
   moy = s / i
   return moy
 
-print("La moyenne e l'élève 1 en math est ", moyenne_tuples(notes,'eleve1','math'))
+print("La moyenne e l'élève 1 en math est ", moyenne_tuple(notes,'eleve1','math'))
 
 #Q4.c
 
-def moyenne_tuples(notes,eleve,matiere):
+def moyenne_tuple(notes,eleve,matiere):
   s=0
   i = 0
   for x in notes:
@@ -64,90 +64,67 @@ print(onote.valeur)
 Note.afficher(onote)
 
 
-#Q6
+
+
+
+
+
+
 
 class Note:
-def __init__(self, eleve, matiere, valeur): #La méthode pour créer un objet
-self.eleve = eleve
-self.matiere = matiere
-self.valeur = valeur
-def afficherNote(self):
-print(self.valeur)
-onote = Note('eleve1', 'maths', 13)
-onote.afficherNote()
+  instances = []  
+  def __init__(self, eleve, matiere, valeur): #La méthode pour créer un objet
+    self.eleve = eleve
+    self.matiere = matiere
+    self.valeur = valeur
+
+    Note.instances.append(self)
+
+  def __str__(self):
+    return f"{self.__class__.__name__}('{self.eleve}','{self.matiere}','{self.valeur}')"
 
 
+  @classmethod 
+  def vider(cls):
+    cls.instances = []
+
+  @classmethod 
+  def moyenne(cls):
+    return(sum(n.valeur for n in cls.instances)/len(cls.instances))
 
 
+if __name__ == '__main__':
+    note1 = ('eleve1', 'math', 13)
+    note2 = ('eleve1', 'physique', 15)
+    note3 = ('eleve1', 'math', 13)
+    note4 = ('eleve1', 'eco', 12)
+    note5 = ('eleve1', 'eco', 13)
+    note6 = ('eleve1', 'math', 12)
+    note7 = ('eleve2', 'math', 13)
+    note8 = ('eleve2', 'math', 14)
 
+    notes = [note1, note2, note3, note4, note5, note6,note7,note8]
 
+    notes_elv1 = [note for note in notes if note[0] == 'eleve1']
 
-class Demo:
-  classattr = 'defaut'
-  def __init__(self, a):
-    self.a = a
+    print(notes_elv1)
 
+    print(sum(note[2] for note in notes_elv1)/len(notes_elv1))
 
-demo1 = Demo(1)
-demo2 = Demo(2)
+    notes_elv1_math = [n for n in notes_elv1 if n[1] == 'math']
 
-print(demo1.a)
-print(demo2.a)
-print(Demo.classattr)
-print(demo1.classattr)
-print(demo2.classattr)
+    print(sum(n[2] for n in notes_elv1_math)/len(notes_elv1_math))
 
-Demo.classattr = 23
+    print(moyenne_tuple(notes, 'eleve1', 'math'))
 
-print(demo1.classattr)
-print(demo2.classattr)
+    onote = Note('eleve1', 'maths', 13)
 
-demo1.classattr = -1
+    onotes = [Note(eleve, matiere,  valeur) for eleve, matiere, valeur in notes]
 
-print(Demo.classattr)
-print(demo1.classattr)
-print(demo2.classattr)
+    onotes = [Note(*note) for note in notes]
 
-Demo.classattr = 14
+    Note.vider()
 
+    onotes = [Note(*note) for note in notes]
 
-
-
-
-
-class Demo:
-  classattr = 'defaut'
-  def __init__(self, a):
-    self.a = a
-
-  @classmethod #attention !
-  def default_len(cls):
-    return len(cls.classattr)
-
-print(Demo.default_len())
-
-
-
-
-
-
-from .main import Note
-
-def test_ajout():
-  Note.vider()
-  # assert
-  Node(eleve = 'eleve1', matiere='math', 12)
-  # assert
-
-
-
-
-
-
-
-
-
-
-
-
-
+    print(Note.moyenne()) 
